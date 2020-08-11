@@ -1,0 +1,272 @@
+\documentclass[]{article}
+\usepackage{fullpage}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathrsfs}
+
+\usepackage{todonotes}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{showlabels}
+\graphicspath{{res/}}
+
+\usepackage[english]{babel}
+\usepackage{blindtext}
+
+\usepackage[authoryear,round,longnamesfirst]{natbib}
+\bibliographystyle{unsrtnat}
+
+\RequirePackage[l2tabu, orthodox]{nag}
+\usepackage[all,warning]{onlyamsmath}
+
+\usepackage{hyperref}
+
+\newcommand{\tnorm}{\underline{t}_{\land}}
+\newcommand{\snorm}{\underline{s}_{\lor}}
+
+\title{Fuzzy Logic}
+\author{Santiago Hincapie-Potes}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+
+\section{Fuzzy sets}
+The main idea is to model imprecise concepts, such as youngness or tallness.
+Although they are everyday concepts, there isn't a formal definition of their
+real meaning due to the fact that there is no clear border that delimits them.\\
+Although at first glance it may not seem particularly useful, it can be an
+interesting tool for modeling imprecise dependencies (e.g.\ rules) for instance
+if Temperature is ``low'' and Oil is ``cheap'' then crank up the heating system.
+
+\subsection{Crisp Sets}
+Crisp sets A.K.A. Classical sets is one that can be described by the elements that
+belong it. It is possible to describe any set using a characteristic function:
+\[ m_{A}(x) := \begin{cases}
+      1 & x\in A \\
+      0 & x\notin A
+   \end{cases} \qquad m_{A}(x) \in \{0, 1\}
+\]
+\paragraph{Example} Consider the following set
+\( A = \{x \in \mathbb{R} \mid a \leq x \leq b \}\),
+the corresponding characteristic function can be seen in~\ref{fig:crispset}
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=8cm]{crisp_set}
+  \caption{Plot of the characteristic function of a crisp set example\label{fig:crispset}}
+\end{figure}
+
+\subsection{Fuzzy Sets~\citep{Zadeh1965}}
+A fuzzy set is a class of objects with a continuum of grades of membership,
+as stated above, it tries to model classes of concepts in which the notion of
+membership is ambiguous. It is possible to describe any fuzzy set using a
+so-called membership function, which is very similar to the characteristic
+function used to the crisp sets but now this function assigns values in the
+interval $[0, 1]$, so now it is possible to describe classes with intermediate
+degrees of membership
+
+\paragraph{Example} Consider the following fuzzy set
+$ \hat{A} = x \text{ is roughly in }[a, b] $,
+the corresponding characteristic function can be seen in~\ref{fig:fuzzyset}\\
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=8cm]{fuzzy_set}
+  \caption{Plot of the membership function of a fuzzy set example\label{fig:fuzzyset}}
+\end{figure}
+
+So basically, numbers very far from the interval simply do not belong to the set.
+Numbers in the interval strongly belong to the set. Numbers close to the extremes
+of the interval (i.e.\ roughly in $[a, b]$) belong to the set with a certain degree
+of membership between 0 and 1.
+
+\subsection{Linguistic Variables~\citep{Zadeh1975}}
+A linguistic variable is a variable whose values (interpretation) are natural
+language expressions.~For example, \textit{Age} is a linguistic variable if its
+values are \textit{young, old, etc.}, rather than $20, 21, 22, \dots$.
+Since words, in general, are less precise than numbers, the concept of a
+linguistic variable serves the purpose of providing a means of approximate
+characterization of phenomena which are too complex or too ill-defined to be
+amenable to description in conventional quantitative terms. \\
+More formally a linguistic variable can be characterized by the triplet
+$(\mathscr{X}, T(\mathscr{X}), U)$ in which $\mathscr{X}$ is the name of
+the variable i.e. \textit{Age}; $T(\mathscr{X})$ is the \textit{term-set} of
+$\mathscr{X}$, that is the collection of its linguistic values, i.e.
+\textit{young, old, etc.}; $U$ the universe of discourse, the range in
+which the variable would take numerical values i.e. As age can take
+values between 0 and 200, $U = \{x \in \mathbb{R} \mid 0\leq x\leq 200\}$.\\
+The meaning of the value $X$ of a linguistic variable can be characterized by
+a fuzzy sets in which, its membership function $\mu: U\to [0, 1]$ tells how
+compatible are $X$ to a certain numerical value in $U$. To characterize the
+meaning of a linguistic variable, the meaning of a representative subset of its
+values is typically used.
+
+\paragraph{Example}
+\begin{itemize}
+  \item Consider the linguistic variable \textit{Age}, in~\ref{fig:age} we can
+    see the graph of the fuzzy sets that represents \textit{young} and
+    \textit{old}
+    \begin{figure}[ht!]
+      \centering
+      \includegraphics[width=8cm]{age}
+      \caption{Plot of meaning of young and old\label{fig:age}}
+    \end{figure}
+  \item Consider the linguistic variable \textit{Size}, in~\ref{fig:size} we can
+    see the graph of the fuzzy sets that represents \textit{small, medium} and
+    \textit{tall}
+    \begin{figure}[ht!]
+      \centering
+      \includegraphics[width=8cm]{size}
+      \caption{Plot of meaning of small, medium, tall\label{fig:size}}
+    \end{figure}
+\end{itemize}
+
+\subsubsection*{Context is critical}
+Ambiguity is part of human language and it is this that allows to express
+incredibly complex ideas with a relatively small number of bits, linguists
+agree that the context in which a word appears is essential to resolve the
+possible ambiguities associated with the meaning of a word~\citep{Bransford1972}
+On a similar way, the meaning of a linguistic variable should depends on the
+context in which it is being used.
+\paragraph{Example}
+The notion of tallness strongly depends on the context in which is being used, a
+small person in the Netherlands may not be that small in Yemen, even more, a
+small basketball player may be a huge jockeys rider, in~\ref{fig:context} the
+comparison of the fuzzy sets that represents this last scenario is shown
+
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=7cm]{basketball}
+  \caption{Size of basketball player}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=7cm]{jockeys}
+  \caption{Size of jockeys riders}
+\end{subfigure}
+\caption{Comparison of the meaning of Size on different sports\label{fig:context}}
+\end{figure}
+
+\subsection{Membership functions}
+The membership function is a key concept in fuzzy logic as it represents the
+degree of truth of a fuzzy set. Beside in theory any mapping between $U$ and
+$[0, 1]$ can be used as membership function, the fuzzy logic community has
+adopted a relatively low number of parameterizable membership functions with
+which it is possible to model a large number of scenarios, in~\ref{fig:membership}
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{tropezoid}
+    \caption{trapezoid<a, b, c, d>\label{fig:trapezoid}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{triangular}
+    \caption{triangle<a, b, c> = traeozoid<a, b, b, c>\label{fig:triangular}}
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{gaussian}
+    \caption{gaussian<mean, std>\label{fig:gaussian}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{singleton}
+    \caption{singleton: (a, 1) and (b, 0.5)\label{fig:singleton}}
+  \end{subfigure}
+  \caption{some common membership functions with their respective
+    parameterization\label{fig:membership}}
+\end{figure*}
+
+There are several properties associated with a membership function, some of the most important
+(in fuzzy logic context) are:
+\begin{itemize}
+  \item{\textbf{Support} elements having non-zero degree of membership}
+  \item{\textbf{Core} Set with elements having degree of 1}
+  \item{\textbf{$\alpha$-cut} set of elements with degree $\geq\alpha$}
+  \item{\textbf{Height} Maximum degree of membership}
+\end{itemize}
+
+In~\ref{fig:concepts} these concepts are exemplified.
+
+\begin{figure}[ht!]
+  \centering
+  \includegraphics[width=8cm]{concepts} % TODO: improve plot
+  \caption{Diagram with annotated properties\label{fig:concepts}}
+\end{figure}
+
+\subsection{Operators on Fuzzy Sets}
+As in classic sets, the fuzzy sets can be operated between them, unfortunately,
+unlike the first, there is no a convincing arguments for something like the
+``right choice'' of our operations~\citep{Zadeh1965}. Of course, the problem in
+the pas has been discussed from different points of view e.g. \citet{Bellman1973},
+\citet{Yager1979}, \citet{Giles1979}. Beside those motivational discussions for
+the choice of ``right'' operators for fuzzy sets different families of operations
+have been discussed by e.g.\citet{Yager1980}, \citet{Dombi1982}, \citet{Weber1983},
+all of which proved to be special cases of t-norms~\citep{Schweizer1961}, this is
+mainly due the t-norm generalize the usual conjunction operator and hence could
+be used to define intersection operation for fuzzy sets, correspondingly his dual,
+the t-conorms (AKA s-norm) generalize the usual disjunction operator and thus
+could be used to define union operation for fuzzy sets.
+\subsubsection{t-norm~\citep{Schweizer1961}}
+A t-norm (triangular norm) is a function $\tnorm: [0, 1] \times [0, 1] \to [0, 1] $
+which satisfies the following properties:
+\begin{enumerate}
+  \item \textbf{Commutativity}: $\tnorm(a, b) = \tnorm(b, a)$
+  \item \textbf{Monotonicity}: $\tnorm(a, b) \leq \tnorm(c, d)\text{ if } a \leq c\ \&\ b \leq d$
+  \item \textbf{Associativity}: $\tnorm(a, \tnorm(b, c)) = \tnorm(\tnorm(a, b), c)$
+  \item The number 1 acts as neural element: $\tnorm(a, 1) = a$
+\end{enumerate}
+The boolean conjunction is both commutative and associative, its generalization
+must have these operational properties. The monotonicity property ensures that
+the degree of truth of conjuction does not decrease if the thuth values of
+conjucts increase. The requirement of 1 as neutral element corresponds to the
+interpretation of 1 as true.
+\subsubsection{Negation}
+The truth function of negation has to be non-incresing (and assing 0 to 1 and
+vice versa); the function $1 - x$ is the best known candidate.
+\subsubsection{t-conorm}
+Using the De morgan duality is possible to define a t-corom $\snorm$ with respect
+with respect to a negation operation. This new $\snorm$ would generalize the usual
+disjunction operation. More specific
+
+$$ \snorm(u, v) = 1 - \tnorm(1 - u, 1 - v) $$
+$$ \tnorm(u, v) = 1 - \snorm(1 - u, 1 - v) $$
+\paragraph{Gödel norm}
+It occurs in most t-norm based fuzzy logics as the standard semantics for conjunction
+$$ \tnorm(x, y) = \min{(x, y)} $$
+$$ \snorm(x, y) = \max{(x, y)} $$
+
+This ``and'' must be interpreted in a ``hard'' sense, that is, we do not allow
+any tradeoff between $x$ and $y$ so long as $x > y$ or vice-versa. For instance,
+if $x = 0.8$ and $x = 0.5$, then $\tnorm(x, y) = 0.5$ so long as $x > 0.5$.
+\paragraph{Product norm}
+$$ \tnorm(x, y) = x \cdot y $$
+$$ \snorm(x, y) = x + y - x \cdot y $$
+
+\paragraph{Lukasiewicz norm}
+$$ \tnorm(x, y) = \max{(0, x + y - 1)} $$
+$$ \snorm(x, y) = \min{(1, a + b)} $$
+
+
+\subsubsection{Classic vs Fuzzy logic}
+\section{Fuzzy Rule System}
+
+\bibliography{main}
+
+\end{document}
